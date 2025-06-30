@@ -101,42 +101,6 @@ document.querySelectorAll('.btn').forEach(btn => {
     });
 });
 
-
-//CONTACT SECTION
-document.querySelector('form').addEventListener('submit', function(e) {
-    const nameInput = document.querySelector('input[type="text"]');
-    const emailInput = document.querySelector('input[type="email"]');
-    const messageInput = document.querySelector('textarea');
-    
-    if (!nameInput.value.trim()) {
-        alert('Please enter your name');
-        e.preventDefault();
-        return;
-    }
-    
-    if (!emailInput.value.trim() || !isValidEmail(emailInput.value)) {
-        alert('Please enter a valid email address');
-        e.preventDefault();
-        return;
-    }
-    
-    if (!messageInput.value.trim()) {
-        alert('Please enter your message');
-        e.preventDefault();
-        return;
-    }
-    
-    // Form is valid - show success message
-    e.preventDefault();
-    alert('Form submitted successfully! (This is a demo)');
-    this.reset();
-});
-
-function isValidEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
-
 //TRUST SECTION
  // Project counter animation
         function animateCounter(element, start, end, duration) {

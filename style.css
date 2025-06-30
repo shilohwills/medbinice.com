@@ -1418,6 +1418,7 @@ video {
   #contact {
       background: linear-gradient(135deg, #121212 0%, #2c2c2c 100%);
       color: #f0f0f0;
+      height: auto;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -1437,93 +1438,20 @@ video {
   
   .container-2 {
       display: flex;
+      gap: 20px;
       flex-wrap: wrap;
       padding: 40px;
       background: linear-gradient(to right, #0a0a0a, #1e1e1e);
   }
   
-  .contact-form {
-      flex: 1;
-      min-width: 300px;
-      padding: 30px;
-      background-color: #1a1a1a;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      margin-right: 30px;
-  }
-  
   .contact-info {
       flex: 1;
+      width: 50%;
       min-width: 300px;
       padding: 30px;
       background-color: #1a1a1a;
       border-radius: 8px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  }
-  
-  .section-title {
-      font-size: 28px;
-      font-weight: 600;
-      margin-bottom: 25px;
-      color: #fff;
-      position: relative;
-      padding-bottom: 10px;
-  }
-  
-  .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 60px;
-      height: 3px;
-      background: #fff;
-  }
-  
-  .form-group {
-      margin-bottom: 20px;
-  }
-  
-  .form-control {
-      width: 100%;
-      padding: 14px;
-      background-color: #121212;
-      border: 1px solid #333;
-      border-radius: 6px;
-      color: #fff;
-      font-size: 16px;
-      transition: all 0.3s ease;
-  }
-  
-  .form-control:focus {
-      outline: none;
-      border-color: #fff;
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-  }
-  
-  textarea.form-control {
-      min-height: 150px;
-      resize: vertical;
-  }
-  
-  .btn {
-      background-color: #000;
-      color: #fff;
-      border: 2px solid #fff;
-      padding: 12px 30px;
-      font-size: 16px;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-  }
-  
-  .btn:hover {
-      background-color: #fff;
-      color: #000;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
   }
   
   .contact-item {
@@ -1626,11 +1554,7 @@ video {
     .container-1 {
         padding: 25px;
     }
-    
-    .contact-form {
-        margin-right: 0;
-        margin-bottom: 30px;
-    }
+  
 }
 
 @media (max-width: 600px) {
@@ -1638,7 +1562,7 @@ video {
         padding: 20px;
     }
     
-    .contact-form, .contact-info {
+    .contact-info {
         padding: 20px;
     }
     
