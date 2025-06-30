@@ -37,11 +37,21 @@
             background: white;
         }
 
-        .section-title-1 {
+        .section-title {
             width: 100;
             display: grid;
             place-items: center;
             margin-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 35%;
+            width: 90px;
+            height: 3px;
+            background: #fff;
         }
         
         textarea.form-control {
