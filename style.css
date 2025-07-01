@@ -462,7 +462,7 @@
 .fancy {
     background-color: transparent;
     border: 2px solid white;
-    border-radius: 0;
+    border-radius: 5px;
     box-sizing: border-box;
     color: white;
     cursor: pointer;
@@ -714,6 +714,7 @@ img:hover {
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   text-align: left;
+  font-family: "Inria Serif", serif;
 }
 
 .header h1 {
@@ -1036,7 +1037,7 @@ img:hover {
 }
 
 .section-header h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: "Inria Serif", serif;
     font-size: 3.2rem;
     font-weight: 600;
     color: #1a1a1a;
@@ -1062,7 +1063,7 @@ img:hover {
 
 .section-header p {
     font-size: 1.2rem;
-    color: #666;
+    color: #232222;
     max-width: 600px;
     margin: 0 auto;
     font-weight: 300;
@@ -1219,6 +1220,7 @@ video {
 
   header h1 {
       font-size: 2.8rem;
+      font-family: "Inria Serif", serif;
       margin-bottom: 0.5rem;
       background: linear-gradient(to right, var(--accent), var(--highlight));
       -webkit-background-clip: text;
@@ -1306,6 +1308,7 @@ video {
       font-size: 1.6rem;
       margin-bottom: 0.5rem;
       font-weight: 600;
+      font-family: "Inria Serif", serif;
   }
 
   .card-header p {
@@ -1483,12 +1486,14 @@ video {
       background: white;
   }
 
-  .section-title {
+  .section-title,
+  .section-title-1 {
       width: 100;
       display: grid;
       place-items: center;
       margin-bottom: 20px;
       position: relative;
+      font-family: "Inria Serif", serif;
   }
 
   .section-title::after {
@@ -1499,6 +1504,16 @@ video {
       width: 90px;
       height: 3px;
       background: #fff;
+  }
+
+  .section-title-1::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 45%;
+    width: 90px;
+    height: 3px;
+    background: #fff;
   }
   
   textarea.form-control {
@@ -1981,6 +1996,7 @@ video {
             color: transparent;
             position: relative;
             display: inline-block;
+            font-family: "Inria Serif", serif;
         }
 
         .section-header h2::after {
@@ -2017,10 +2033,15 @@ video {
 
         .story-content h3 {
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 600;
             margin-bottom: 25px;
             color: #f0f0f0;
+            background: linear-gradient(to right, #eee, #aaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: "Inria Serif", serif;
         }
 
         .story-content p {
@@ -2119,10 +2140,16 @@ video {
         }
 
         .trust-reasons h3 {
+            font-weight: 700;
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             margin-bottom: 40px;
             color: #f0f0f0;
+            background: linear-gradient(to right, #eee, #aaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: "Inria Serif", serif;
         }
 
         .reasons-grid {
@@ -2152,9 +2179,10 @@ video {
         }
 
         .reason-content h4 {
-            font-size: 1.3rem;
+            font-size: 1.7rem;
             margin-bottom: 10px;
             color: #f5f5f5;
+            font-family: "Inria Serif", serif;
         }
 
         .reason-content p {
