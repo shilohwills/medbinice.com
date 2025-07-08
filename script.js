@@ -103,48 +103,48 @@ document.querySelectorAll('.btn').forEach(btn => {
 
 //TRUST SECTION
  // Project counter animation
-        function animateCounter(element, start, end, duration) {
-            let startTimestamp = null;
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const value = Math.floor(progress * (end - start) + start);
-                element.textContent = value.toLocaleString() + '+';
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
+function animateCounter(element, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const value = Math.floor(progress * (end - start) + start);
+        element.textContent = value.toLocaleString() + '+';
+        if (progress < 1) {
             window.requestAnimationFrame(step);
         }
+    };
+    window.requestAnimationFrame(step);
+}
 
-        // Fade-in animation on scroll
-        function setupFadeAnimations() {
-            const fadeElements = document.querySelectorAll('.fade-in');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('appear');
-                        
-                        // Start counter animation when the project counter comes into view
-                        if (entry.target.id === 'project-counter') {
-                            animateCounter(entry.target, 0, 850, 2000);
-                        }
-                        
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
-
-            fadeElements.forEach(element => {
-                observer.observe(element);
-            });
-        }
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            setupFadeAnimations();
+// Fade-in animation on scroll
+function setupFadeAnimations() {
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('appear');
+                
+                // Start counter animation when the project counter comes into view
+                if (entry.target.id === 'project-counter') {
+                    animateCounter(entry.target, 0, 850, 2000);
+                }
+                
+                observer.unobserve(entry.target);
+            }
         });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    fadeElements.forEach(element => {
+        observer.observe(element);
+    });
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setupFadeAnimations();
+});
