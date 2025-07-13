@@ -22,7 +22,7 @@ function loadGallery(category) {
     imgWrapper.setAttribute('data-aos-delay', `${(i % 6) * 100}`);
 
     const img = document.createElement('img');
-    img.src = `images/${category}/${i}.jpg`;
+    img.src = `images/${category}/${i}.webp`;
     img.alt = `${category} ${i}`;``
     img.loading = 'lazy'; // Add lazy loading
     imgWrapper.appendChild(img);
