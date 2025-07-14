@@ -1267,174 +1267,129 @@
     once: true
   });
 </script>
-<script defer>
-  document.getElementById('back-to-top-1').addEventListener('click', () => {
-    // Calculate start, destination, and duration
-    const start = window.scrollY;
-    const duration = 5000;
-    const startTime = performance.now();
-
-    function scrollStep(now) {
-      // Calculate progress (between 0 and 1)
-      const progress = Math.min((now - startTime) / duration, 1);
-      // Apply ease (easeOutCubic)
-      const ease = 1 - Math.pow(1 - progress, 3);
-      // Calculate current scroll position
-      window.scrollTo(0, start * (1 - ease));
-
-      if (progress < 1) {
-        requestAnimationFrame(scrollStep);
-      }
-    }
-
-    requestAnimationFrame(scrollStep);
+<script>
+    // ===== MAIN OPTIMIZATIONS ===== //
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. FONT LOADING OPTIMIZATION
+  document.fonts.ready.then(() => {
+    initAnimations();
+    initSmoothScroll();
   });
-</script>
-<script>
-    const swiper = new Swiper('.swiper', {
-        autoHeight: true,
-        loop: true,
+  
+  // 2. LAZY LOADING WITH INTERSECTION OBSERVER
+  initLazyLoading();
+  
+  // 3. BACK-TO-TOP WITH LENIS
+  initBackToTop();
+});
 
-        // If we need pagination
-        pagination: {
-            el: '.swiper-pagination',
-        },
-
-        // Navigation arrows
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-
+// ===== ANIMATION OPTIMIZATION ===== //
+function initAnimations() {
+  gsap.registerPlugin(ScrollTrigger);
+  
+  // Batch DOM reads
+  const splitTypes = document.querySelectorAll('.reveal-type');
+  const charData = [];
+  
+  // Single layout pass
+  splitTypes.forEach((char) => {
+    charData.push({
+      element: char,
+      width: char.offsetWidth, // Capture before SplitType
+      height: char.offsetHeight
     });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-    gsap.registerPlugin(ScrollTrigger)
+  });
+  
+  // Apply SplitType and animations
+  requestAnimationFrame(() => {
+    charData.forEach(data => {
+      const text = new SplitType(data.element, { types: 'chars' });
+      
+      // GPU-accelerated animation
+      gsap.set(text.chars, {
+        opacity: 0,
+        willChange: 'transform, opacity'
+      });
+      
+      gsap.to(text.chars, {
+        scrollTrigger: {
+          trigger: data.element,
+          start: 'top 90%',
+          end: 'top 30%',
+          scrub: true,
+          markers: false
+        },
+        opacity: 1,
+        stagger: 0.2,
+        force3D: true // Enable GPU acceleration
+      });
+    });
+  });
+}
 
-    const splitTypes = document.querySelectorAll('.reveal-type')
+// ===== SMOOTH SCROLL OPTIMIZATION ===== //
+function initSmoothScroll() {
+  const lenis = new Lenis({
+    lerp: 0.1,
+    smoothWheel: true,
+    infinite: false // Critical optimization
+  });
 
-    splitTypes.forEach((char, i) => {
-        const text = new SplitType(char, { types: 'chars' })
-        
-        gsap.from(text.chars, {
-            scrollTrigger: {
-                trigger: char,
-                start: 'top 80%',
-                end: 'top 20%',
-                scrub: true,
-                markers: false
-            },
-            opacity: 0.2,
-            stagger: 0.2
-        })
-    })
+  // Simplified RAF
+  function raf() {
+    lenis.raf();
+    requestAnimationFrame(raf);
+  }
+  raf();
+}
 
-    const lenis = new Lenis()
-
-    lenis.on('scroll', (e) => {
-        console.log(e)
-    })
-
-    function raf(time) {
-        lenis.raf(time)
-        requestAnimationFrame(raf)
-    }
-
-    requestAnimationFrame(raf)
-    })
-</script>
-<script>
-    // Lazy loading implementation
-    document.addEventListener('DOMContentLoaded', function() {
-        // Check if browser supports native lazy loading
-        const supportsNativeLazy = 'loading' in HTMLImageElement.prototype;
-        
-        // Get all lazy images
-        const lazyImages = document.querySelectorAll('img.lazy');
-        
-        if (supportsNativeLazy) {
-            // Browser supports native lazy loading
-            lazyImages.forEach(img => {
-                // Replace data-src with src
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                }
-                // Remove data-src attribute
-                img.removeAttribute('data-src');
-            });
-        } else {
-            // Fallback for browsers without native lazy loading
-            const lazyLoad = function() {
-                lazyImages.forEach(img => {
-                    if (img.dataset.src && isInViewport(img)) {
-                        // Show loading spinner
-                        const container = img.closest('.lazy-container');
-                        if (container) {
-                            container.classList.add('loading');
-                        }
-                        
-                        // Create new image to preload
-                        const tempImg = new Image();
-                        tempImg.src = img.dataset.src;
-                        tempImg.onload = function() {
-                            // Set the actual image source
-                            img.src = img.dataset.src;
-                            
-                            // Remove data-src attribute
-                            img.removeAttribute('data-src');
-                            
-                            // Add loaded class for transition effect
-                            img.classList.add('loaded');
-                            
-                            // Remove loading spinner
-                            if (container) {
-                                container.classList.remove('loading');
-                            }
-                        };
-                    }
-                });
-            };
-            
-            // Check if element is in viewport
-            function isInViewport(element) {
-                const rect = element.getBoundingClientRect();
-                return (
-                    rect.bottom >= 0 && 
-                    rect.right >= 0 && 
-                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) && 
-                    rect.left <= (window.innerWidth || document.documentElement.clientWidth)
-                );
-            }
-            
-            // Initial check
-            lazyLoad();
-            
-            // Listen to scroll and resize events
-            window.addEventListener('scroll', lazyLoad);
-            window.addEventListener('resize', lazyLoad);
+// ===== LAZY LOADING OPTIMIZATION ===== //
+function initLazyLoading() {
+  const lazyImages = [...document.querySelectorAll('img.lazy')];
+  
+  if ('loading' in HTMLImageElement.prototype) {
+    // Native lazy loading
+    lazyImages.forEach(img => {
+      if (img.dataset.src) img.src = img.dataset.src;
+      img.classList.add('loaded');
+    });
+  } else {
+    // IntersectionObserver fallback
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          const container = img.closest('.lazy-container');
+          
+          if (container) container.classList.add('loading');
+          
+          img.src = img.dataset.src;
+          img.onload = () => {
+            img.classList.add('loaded');
+            if (container) container.classList.remove('loading');
+            observer.unobserve(img);
+          };
         }
-        
-        // For browsers that support native lazy loading, still add the loaded class
-        lazyImages.forEach(img => {
-            img.onload = function() {
-                this.classList.add('loaded');
-                const container = this.closest('.lazy-container');
-                if (container) {
-                    container.classList.remove('loading');
-                }
-            };
-            
-            // If image is already loaded (cached)
-            if (img.complete) {
-                img.classList.add('loaded');
-                const container = img.closest('.lazy-container');
-                if (container) {
-                    container.classList.remove('loading');
-                }
-            }
-        });
-    });
+      });
+    }, { rootMargin: '200px 0px' }); // Preload 200px before viewport
+
+    lazyImages.forEach(img => observer.observe(img));
+  }
+}
+
+// ===== BACK-TO-TOP OPTIMIZATION ===== //
+function initBackToTop() {
+  document.getElementById('back-to-top-1').addEventListener('click', () => {
+    // Use existing Lenis instance for smooth scrolling
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { duration: 1.5 });
+    } 
+    // Fallback to native smooth scrolling
+    else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+}
 </script>
 </body>
 </html>
