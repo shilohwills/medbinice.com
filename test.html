@@ -1,39 +1,148 @@
-<style>
-/* GPU ACCELERATION */
-.reveal-type {
-  backface-visibility: hidden;
-  transform: translateZ(0);
-}
-
-/* LAZY LOAD TRANSITIONS */
 img.lazy {
-  transition: opacity 0.4s ease;
-}
-img.lazy.pending-load {
-  opacity: 0;
-}
-img.lazy.loaded {
-  opacity: 1;
-}
 
-/* LOADING SPINNER */
-.lazy-container.loading::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 24px;
-  height: 24px;
-  border: 3px solid rgba(0,0,0,0.1);
-  border-top-color: #000;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  transform: translate(-50%, -50%);
-}
-@keyframes spin {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-</style>
+<script>
+    const swiper = new Swiper('.swiper', {
+        autoHeight: true,
+        loop: true,
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination',
+        },
+
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const splitTypes = document.querySelectorAll('.reveal-type')
+
+    splitTypes.forEach((char, i) => {
+        const text = new SplitType(char, { types: 'chars' })
+        
+        gsap.from(text.chars, {
+            scrollTrigger: {
+                trigger: char,
+                start: 'top 80%',
+                end: 'top 20%',
+                scrub: true,
+                markers: false
+            },
+            opacity: 0.2,
+            stagger: 0.2
+        })
+    })
+
+    const lenis = new Lenis()
+
+    lenis.on('scroll', (e) => {
+        console.log(e)
+    })
+
+    function raf(time) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+    })
+</script>
+<script>
+    // Lazy loading implementation
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if browser supports native lazy loading
+        const supportsNativeLazy = 'loading' in HTMLImageElement.prototype;
+        
+        // Get all lazy images
+        const lazyImages = document.querySelectorAll('img.lazy');
+        
+        if (supportsNativeLazy) {
+            // Browser supports native lazy loading
+            lazyImages.forEach(img => {
+                // Replace data-src with src
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                }
+                // Remove data-src attribute
+                img.removeAttribute('data-src');
+            });
+        } else {
+            // Fallback for browsers without native lazy loading
+            const lazyLoad = function() {
+                lazyImages.forEach(img => {
+                    if (img.dataset.src && isInViewport(img)) {
+                        // Show loading spinner
+                        const container = img.closest('.lazy-container');
+                        if (container) {
+                            container.classList.add('loading');
+                        }
+                        
+                        // Create new image to preload
+                        const tempImg = new Image();
+                        tempImg.src = img.dataset.src;
+                        tempImg.onload = function() {
+                            // Set the actual image source
+                            img.src = img.dataset.src;
+                            
+                            // Remove data-src attribute
+                            img.removeAttribute('data-src');
+                            
+                            // Add loaded class for transition effect
+                            img.classList.add('loaded');
+                            
+                            // Remove loading spinner
+                            if (container) {
+                                container.classList.remove('loading');
+                            }
+                        };
+                    }
+                });
+            };
+            
+            // Check if element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.bottom >= 0 && 
+                    rect.right >= 0 && 
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) && 
+                    rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+            
+            // Initial check
+            lazyLoad();
+            
+            // Listen to scroll and resize events
+            window.addEventListener('scroll', lazyLoad);
+            window.addEventListener('resize', lazyLoad);
+        }
+        
+        // For browsers that support native lazy loading, still add the loaded class
+        lazyImages.forEach(img => {
+            img.onload = function() {
+                this.classList.add('loaded');
+                const container = this.closest('.lazy-container');
+                if (container) {
+                    container.classList.remove('loading');
+                }
+            };
+            
+            // If image is already loaded (cached)
+            if (img.complete) {
+                img.classList.add('loaded');
+                const container = img.closest('.lazy-container');
+                if (container) {
+                    container.classList.remove('loading');
+                }
+            }
+        });
+    });
+</script>
