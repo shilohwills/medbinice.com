@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medbinice Creative Studio</title>
-    <link rel="stylesheet" href="combined.min.css">
-    <link rel="preload" as="style" onload="this.onload=null;this.rel=`stylesheet`" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
+    <title>Medbinice Creative Studio - With Lazy Loading</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-1.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,
+    400..700;1,400..700&family=Hanken+Grotesk:ital,
+    wght@0,100..900;1,100..900&family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,
+    300;1,400;1,700&family=Oswald:wght@200..700&family=Playfair+Display:ital,
+    wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ancizar+Serif:ital,wght@0,
+    300..900;1,300..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
 
      <!-- ========== OPEN GRAPH (FACEBOOK/LINKEDIN) ========== -->
@@ -18,33 +30,62 @@
     <meta property="og:type" content="website">
     
     <style>
-        /* LAZY LOAD TRANSITIONS */
-        img.lazy {
-        transition: opacity 0.4s ease;
+        /* Lazy loading styles */
+        .lazy {
+            opacity: 0;
+            transition: opacity 0.6s ease;
         }
-        img.lazy.pending-load {
-        opacity: 0;
+        
+        .lazy.loaded {
+            opacity: 1;
         }
-        img.lazy.loaded {
-        opacity: 1;
+        
+        .lazy-placeholder {
+            position: relative;
+            background-size: 200% 100%;
+            animation: 1.5s shine linear infinite;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        @keyframes shine {
+            to {
+                background-position-x: -200%;
+            }
+        }
+        
+        /* Add blur effect for smoother loading */
+        .lazy-blur {
+            filter: blur(10px);
+            transition: filter 0.5s ease;
+        }
+        
+        .lazy-blur.loaded {
+            filter: blur(0);
+        }
+        
+        /* Loading spinner */
+        .lazy-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top: 3px solid #333;
+            animation: spin 1s linear infinite;
+            display: none;
         }
 
-        /* LOADING SPINNER */
-        .lazy-container.loading::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 24px;
-        height: 24px;
-        border: 3px solid rgba(0,0,0,0.1);
-        border-top-color: #000;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-        transform: translate(-50%, -50%);
+        .lazy-container.loading .lazy-spinner {
+            display: block;
         }
+        
         @keyframes spin {
-        to { transform: translate(-50%, -50%) rotate(360deg); }
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
     </style>
 </head>
@@ -164,13 +205,12 @@
                     <div class="lazy-spinner"></div>
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='800' viewBox='0 0 600 800'%3E%3Crect width='600' height='800' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="images-1/IMG_0295_1.avif"
+                        data-src="images-1/IMG_0295.PNG"  
                         alt="Center Image" 
                         class="fade-in lazy lazy-blur"
                         loading="lazy"
                         width="600"
                         height="800"
-                        type="avif"
                     />
                 </div>
             </div>
@@ -247,7 +287,7 @@
 
   <div class="container-6">
         <section class="trust-section">
-            <div class="section-header fade-in" style="display: flex; flex-direction: column;">
+            <div class="section-header fade-in">
                 <h2 class="fade-in">My Visual Journey</h2>
                 <p class="reveal-type">For over a decade, I've captured life's most precious moments through my lens, creating timeless imagery that speaks to the soul.</p>
             </div>
@@ -360,13 +400,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/1b43cd634a1d3ca68e1848f52953f03d.webp" 
+                        data-src="./images-1/1b43cd634a1d3ca68e1848f52953f03d.jpg" 
                         alt="Gallery image 1"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="webp"
                     />
                 </div>
             </span>
@@ -374,13 +413,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/5f8075157024cbcc0076883fc7ce6df6.webp" 
+                        data-src="./images-1/5f8075157024cbcc0076883fc7ce6df6.jpg" 
                         alt="Gallery image 2"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="webp"
                     />
                 </div>
             </span>
@@ -388,13 +426,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/51dd3de2ab5cb684a9686c6f9af91fe1_1.avif" 
+                        data-src="./images-1/51dd3de2ab5cb684a9686c6f9af91fe1.jpg" 
                         alt="Gallery image 3"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="avif"
                     />
                 </div>
             </span>
@@ -402,13 +439,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/76b727fc8bbcc84768669a170a5c6630_1.avif" 
+                        data-src="./images-1/76b727fc8bbcc84768669a170a5c6630.jpg" 
                         alt="Gallery image 4"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="avif"
                     />
                 </div>
             </span>
@@ -416,13 +452,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/0251bd1316022f68ee2c3ee0ddab1271.webp" 
+                        data-src="./images-1/0251bd1316022f68ee2c3ee0ddab1271.jpg" 
                         alt="Gallery image 5"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="webp"
                     />
                 </div>
             </span>
@@ -430,13 +465,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/4097a5bb2497e976d9ad508b3c897b08.webp" 
+                        data-src="./images-1/4097a5bb2497e976d9ad508b3c897b08.jpg" 
                         alt="Gallery image 6"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="webp"
                     />
                 </div>
             </span>
@@ -444,13 +478,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/8533aa1c1c07fdded567f59b96525738.webp" 
+                        data-src="./images-1/8533aa1c1c07fdded567f59b96525738.jpg" 
                         alt="Gallery image 7"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="webp"
                     />
                 </div>
             </span>
@@ -458,13 +491,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/a20a23eb7536cadbfaf566c577350c09_1.avif" 
+                        data-src="./images-1/a20a23eb7536cadbfaf566c577350c09.jpg" 
                         alt="Gallery image 8"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="avif"
                     />
                 </div>
             </span>
@@ -472,13 +504,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/c58fe2c3f59044da63ace3a1e75e7646_1.avif" 
+                        data-src="./images-1/c58fe2c3f59044da63ace3a1e75e7646.jpg" 
                         alt="Gallery image 9"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="avif"
                     />
                 </div>
             </span>
@@ -486,13 +517,12 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <img 
                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500' viewBox='0 0 400 500'%3E%3Crect width='400' height='500' fill='%23f0f0f0'/%3E%3C/svg%3E" 
-                        data-src="./images-1/d64f63fbb1d665a60f7648351c0538ab.webp" 
+                        data-src="./images-1/d64f63fbb1d665a60f7648351c0538ab.jpg" 
                         alt="Gallery image 10"
                         class="lazy lazy-blur"
                         loading="lazy"
                         width="400"
                         height="500"
-                        type="avif"
                     />
                 </div>
             </span>
@@ -1228,92 +1258,186 @@
     </footer>
 
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script src="script.js" defer></script>
-<script src="script-email.js" defer></script>
+<script src="script.js"></script>
+<script src="script-email.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
+<script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 <script>
   AOS.init({
     once: true
   });
 </script>
-<!-- BACK TO TOP BUTTON (OPTIMIZED) -->
-<script defer>
-document.getElementById('back-to-top-1').addEventListener('click', (e) => {
-  e.preventDefault();
-  // Use native smooth scrolling (most efficient)
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-});
-</script>
-
-<!-- SWIPER CAROUSEL (UNCHANGED) -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const swiper = new Swiper('.swiper', {
-    autoHeight: true,
-    loop: true,
-    pagination: {
-      el: '.swiper-pagination',
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-  });
-});
-</script>
+  document.getElementById('back-to-top-1').addEventListener('click', () => {
+    // Calculate start, destination, and duration
+    const start = window.scrollY;
+    const duration = 5000;
+    const startTime = performance.now();
 
-<!-- LAZY LOADING (MODERN INTERSECTION OBSERVER) -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const lazyImages = document.querySelectorAll('img.lazy');
-  const lazyObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        const container = img.closest('.lazy-container');
-        
-        // Show loading state
-        if (container) container.classList.add('loading');
-        
-        // Load image
-        img.src = img.dataset.src;
-        
-        img.onload = () => {
-          img.classList.add('loaded');
-          if (container) container.classList.remove('loading');
-          observer.unobserve(img);
-        };
+    function scrollStep(now) {
+      // Calculate progress (between 0 and 1)
+      const progress = Math.min((now - startTime) / duration, 1);
+      // Apply ease (easeOutCubic)
+      const ease = 1 - Math.pow(1 - progress, 3);
+      // Calculate current scroll position
+      window.scrollTo(0, start * (1 - ease));
+
+      if (progress < 1) {
+        requestAnimationFrame(scrollStep);
       }
-    });
-  }, {
-    rootMargin: '200px 0px' // Load 200px before entering viewport
-  });
+    }
 
-  lazyImages.forEach(img => {
-    // Set initial state
-    if (!img.complete) {
-      img.classList.add('pending-load');
-    }
-    
-    // Native loading if supported
-    if ('loading' in HTMLImageElement.prototype) {
-      img.loading = 'lazy';
-      if (img.dataset.src) img.src = img.dataset.src;
-    }
-    
-    // Fallback to observer
-    if (!img.complete) {
-      lazyObserver.observe(img);
-    } else {
-      img.classList.add('loaded');
-    }
+    requestAnimationFrame(scrollStep);
   });
-});
 </script>
+<script>
+    const swiper = new Swiper('.swiper', {
+        autoHeight: true,
+        loop: true,
 
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination',
+        },
+
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    const splitTypes = document.querySelectorAll('.reveal-type')
+
+    splitTypes.forEach((char, i) => {
+        const text = new SplitType(char, { types: 'chars' })
+        
+        gsap.from(text.chars, {
+            scrollTrigger: {
+                trigger: char,
+                start: 'top 80%',
+                end: 'top 20%',
+                scrub: true,
+                markers: false
+            },
+            opacity: 0.2,
+            stagger: 0.2
+        })
+    })
+
+    const lenis = new Lenis()
+
+    lenis.on('scroll', (e) => {
+        console.log(e)
+    })
+
+    function raf(time) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+    })
+</script>
+<script>
+    // Lazy loading implementation
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if browser supports native lazy loading
+        const supportsNativeLazy = 'loading' in HTMLImageElement.prototype;
+        
+        // Get all lazy images
+        const lazyImages = document.querySelectorAll('img.lazy');
+        
+        if (supportsNativeLazy) {
+            // Browser supports native lazy loading
+            lazyImages.forEach(img => {
+                // Replace data-src with src
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                }
+                // Remove data-src attribute
+                img.removeAttribute('data-src');
+            });
+        } else {
+            // Fallback for browsers without native lazy loading
+            const lazyLoad = function() {
+                lazyImages.forEach(img => {
+                    if (img.dataset.src && isInViewport(img)) {
+                        // Show loading spinner
+                        const container = img.closest('.lazy-container');
+                        if (container) {
+                            container.classList.add('loading');
+                        }
+                        
+                        // Create new image to preload
+                        const tempImg = new Image();
+                        tempImg.src = img.dataset.src;
+                        tempImg.onload = function() {
+                            // Set the actual image source
+                            img.src = img.dataset.src;
+                            
+                            // Remove data-src attribute
+                            img.removeAttribute('data-src');
+                            
+                            // Add loaded class for transition effect
+                            img.classList.add('loaded');
+                            
+                            // Remove loading spinner
+                            if (container) {
+                                container.classList.remove('loading');
+                            }
+                        };
+                    }
+                });
+            };
+            
+            // Check if element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.bottom >= 0 && 
+                    rect.right >= 0 && 
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) && 
+                    rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+            
+            // Initial check
+            lazyLoad();
+            
+            // Listen to scroll and resize events
+            window.addEventListener('scroll', lazyLoad);
+            window.addEventListener('resize', lazyLoad);
+        }
+        
+        // For browsers that support native lazy loading, still add the loaded class
+        lazyImages.forEach(img => {
+            img.onload = function() {
+                this.classList.add('loaded');
+                const container = this.closest('.lazy-container');
+                if (container) {
+                    container.classList.remove('loading');
+                }
+            };
+            
+            // If image is already loaded (cached)
+            if (img.complete) {
+                img.classList.add('loaded');
+                const container = img.closest('.lazy-container');
+                if (container) {
+                    container.classList.remove('loading');
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>
