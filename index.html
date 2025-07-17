@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/fonts/PlayfairDisplay-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="/fonts/InriaSerif-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.x.x/css/fontawesome.min.css" rel="preload" as="style">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
 
      <!-- ========== OPEN GRAPH (FACEBOOK/LINKEDIN) ========== -->
@@ -194,28 +194,18 @@
                 <div class="lazy-container lazy-placeholder" style="width:100%; height:100%">
                     <div class="lazy-spinner"></div>
                     <picture>
-                        <!-- Mobile Image (corrected source) -->
-                        <source 
-                            media="(max-width: 600px)" 
-                            srcset="images-1/output.avif" 
-                            type="image/avif"
-                        >
-                        
-                        <!-- Desktop Image -->
-                        <source 
-                            media="(min-width: 601px)" 
-                            srcset="images-1/IMG_0295.avif" 
-                            type="image/avif"
-                        >
-                        
-                        <!-- Fallback Image (simplified) -->
+                        <source media="(max-width: 600px)" srcset="images-1/output.avif">
+                        <source media="(min-width: 601px)" srcset="images-1/IMG_0295.avif">
                         <img 
-                            src="images-1/IMG_0295.avif"
-                            alt="Center Image"
-                            class="fade-in"
-                            loading="lazy"
-                        >
+                        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='800' viewBox='0 0 600 800'%3E%3Crect width='600' height='800' fill='%23f0f0f0'/%3E%3C/svg%3E" 
+                        data-src="images-1/IMG_0295.avif"  
+                        alt="Center Image" 
+                        class="fade-in lazy lazy-blur"
+                        loading="lazy"
+                        type="avif"
+                        src="images-1/optimized-image-1.avif"/>
                     </picture>
+                    
                 </div>
             </div>
 
