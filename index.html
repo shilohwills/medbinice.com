@@ -24,7 +24,7 @@
         /* Lazy loading styles */
         .lazy {
             opacity: 0;
-            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);    
+            transition: .4s cubic-bezier(.175, .885, .32, 1.275);    
         }
         
         .lazy.loaded {
@@ -36,7 +36,7 @@
             background-size: 200% 100%;
             animation: 1.5s shine linear infinite;
             border-radius: 4px;
-            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+            transition: .4s cubic-bezier(.175, .885, .32, 1.275);
         }
         
         @keyframes shine {
@@ -68,6 +68,10 @@
             border-top: 3px solid #333;
             animation: spin 1s linear infinite;
             display: none;
+        }
+
+        .lazy-container {
+            transition: .4s cubic-bezier(.175, .885, .32, 1.275);
         }
 
         .lazy-container.loading .lazy-spinner {
